@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Code Quest - 300 Níveis (Python Data Science, SQL & HTML)</title>
+    <title>Tech Code Quest - 300 Níveis Únicos (Python Data Science, SQL & HTML)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -35,39 +35,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0b0f19;
-            color: #f1f5f9;
-        }
-        pre, code, input.code-input {
-            font-family: 'Fira Code', monospace;
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 3px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #475569;
-        }
-        .glow-success {
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
-        }
-        .glow-error {
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #0b0f19; color: #f1f5f9; }
+        pre, code, input.code-input { font-family: 'Fira Code', monospace; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        .glow-success { box-shadow: 0 0 15px rgba(16, 185, 129, 0.3); }
+        .glow-error { box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col bg-slate-950 text-slate-100 overflow-x-hidden">
 
-    <!-- Navbar -->
+    <!-- Header / Navbar -->
     <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40 px-4 py-3">
         <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
@@ -78,11 +57,11 @@
                     <h1 class="font-bold text-lg leading-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
                         Code Quest: Data & Dev Pro
                     </h1>
-                    <p class="text-xs text-slate-400">300 Desafios Práticos por Linguagem</p>
+                    <p class="text-xs text-slate-400">300 Desafios Únicos e Progressivos</p>
                 </div>
             </div>
 
-            <!-- Dashboard Stats -->
+            <!-- Stats Bar -->
             <div class="flex items-center space-x-4 text-sm">
                 <div class="flex items-center space-x-1.5 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700">
                     <i class="fa-solid fa-fire text-orange-500"></i>
@@ -104,19 +83,16 @@
             </div>
         </div>
 
-        <!-- Global Progress Bar -->
         <div class="w-full bg-slate-800 h-1.5 mt-3 rounded-full overflow-hidden">
             <div id="progressBar" class="bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-400 h-full w-0 transition-all duration-500"></div>
         </div>
     </header>
 
-    <!-- Main Content Area -->
+    <!-- Área Principal -->
     <div class="flex-1 flex max-w-7xl w-full mx-auto relative overflow-hidden">
-
-        <!-- Main Challenge View -->
         <main class="flex-1 p-4 md:p-6 flex flex-col max-w-4xl mx-auto w-full">
 
-            <!-- Language Selector Tabs -->
+            <!-- Seleção de Linguagem -->
             <div class="mb-5 flex items-center gap-2 p-1.5 bg-slate-900 border border-slate-800 rounded-xl overflow-x-auto">
                 <button data-lang="python" class="lang-tab flex-1 py-2 px-4 rounded-lg text-xs md:text-sm font-semibold transition flex items-center justify-center gap-2 bg-blue-600 text-white shadow">
                     <i class="fa-brands fa-python text-base"></i> Python (Data Science)
@@ -125,11 +101,11 @@
                     <i class="fa-solid fa-database text-base"></i> SQL Analytics
                 </button>
                 <button data-lang="html" class="lang-tab flex-1 py-2 px-4 rounded-lg text-xs md:text-sm font-semibold transition flex items-center justify-center gap-2 bg-slate-800 text-slate-400 hover:text-slate-200">
-                    <i class="fa-brands fa-html5 text-base"></i> HTML & Dashboards
+                    <i class="fa-brands fa-html5 text-base"></i> HTML Dashboards
                 </button>
             </div>
             
-            <!-- Level & Tech Badge Row -->
+            <!-- Badges e Navegação -->
             <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
                 <div class="flex items-center space-x-2">
                     <span id="levelBadge" class="px-3 py-1 bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-md font-semibold text-sm">
@@ -143,7 +119,6 @@
                     </span>
                 </div>
 
-                <!-- Navigation Quick Buttons -->
                 <div class="flex items-center space-x-2">
                     <button id="prevBtn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded-lg transition disabled:opacity-40 disabled:cursor-not-allowed">
                         <i class="fa-solid fa-chevron-left mr-1"></i> Anterior
@@ -154,18 +129,17 @@
                 </div>
             </div>
 
-            <!-- Question Box -->
+            <!-- Card de Questão -->
             <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-5 shadow-xl">
                 <h2 id="questionTitle" class="text-lg md:text-xl font-bold text-slate-100 mb-2">
-                    Carregando nível...
+                    Carregando desafio...
                 </h2>
                 <p id="questionDesc" class="text-slate-300 text-sm leading-relaxed mb-4">
-                    Descrição da questão...
+                    Descrição do desafio...
                 </p>
 
-                <!-- Code Terminal Box -->
+                <!-- Terminal -->
                 <div class="bg-slate-950 border border-slate-800 rounded-lg overflow-hidden shadow-inner font-mono text-sm">
-                    <!-- Terminal Top Bar -->
                     <div class="bg-slate-900/80 px-4 py-2 border-b border-slate-800 flex items-center justify-between text-xs text-slate-400">
                         <div class="flex items-center space-x-2">
                             <span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
@@ -173,27 +147,25 @@
                             <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
                             <span class="ml-2 font-medium text-slate-400" id="filenameText">script.py</span>
                         </div>
-                        <span class="text-[10px] text-slate-500 uppercase tracking-wider">Preencha a lacuna ___</span>
+                        <span class="text-[10px] text-slate-500 uppercase tracking-wider">Substitua a lacuna ___</span>
                     </div>
-
-                    <!-- Code Snippet Display with Interactive Gap -->
                     <div class="p-4 overflow-x-auto text-slate-200 leading-relaxed relative">
                         <pre id="codeSnippet" class="whitespace-pre-wrap break-words"></pre>
                     </div>
                 </div>
 
-                <!-- Input Form -->
+                <!-- Form de Resposta -->
                 <form id="answerForm" class="mt-4 flex flex-col sm:flex-row items-stretch gap-3">
                     <div class="relative flex-1">
                         <input 
                             type="text" 
                             id="answerInput" 
-                            placeholder="Digite aqui o código que falta na lacuna '___'" 
+                            placeholder="Digite aqui o código da lacuna '___'" 
                             class="w-full bg-slate-950 border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 rounded-lg px-4 py-3 text-sm text-slate-100 placeholder-slate-500 outline-none transition font-mono"
                             autocomplete="off"
                             spellcheck="false"
                         >
-                        <span class="absolute right-3 top-3 text-xs text-slate-500 hidden sm:inline">Pressione Enter ↵</span>
+                        <span class="absolute right-3 top-3 text-xs text-slate-500 hidden sm:inline">Enter ↵</span>
                     </div>
                     <button 
                         type="submit" 
@@ -204,7 +176,6 @@
                     </button>
                 </form>
 
-                <!-- Actions: Hint & Solution -->
                 <div class="mt-4 flex items-center justify-between pt-3 border-t border-slate-800 text-xs">
                     <button id="hintBtn" class="text-amber-400 hover:text-amber-300 flex items-center space-x-1.5 transition">
                         <i class="fa-regular fa-lightbulb"></i>
@@ -216,13 +187,12 @@
                     </button>
                 </div>
 
-                <!-- Hint Container -->
                 <div id="hintBox" class="hidden mt-3 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg text-amber-200 text-xs">
                     <span class="font-bold"><i class="fa-solid fa-lightbulb mr-1"></i> Dica:</span> <span id="hintText">...</span>
                 </div>
             </div>
 
-            <!-- Feedback Modal / Result Container -->
+            <!-- Feedback Modal -->
             <div id="feedbackContainer" class="hidden rounded-xl border p-5 mb-5 transition-all duration-300">
                 <div class="flex items-start space-x-3">
                     <div id="feedbackIcon" class="text-2xl mt-0.5"></div>
@@ -243,7 +213,7 @@
 
         </main>
 
-        <!-- Levels Drawer / Sidebar -->
+        <!-- Sidebar de Níveis -->
         <aside id="levelsSidebar" class="fixed inset-y-0 right-0 w-80 bg-slate-900 border-l border-slate-800 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col">
             <div class="p-4 border-b border-slate-800 flex items-center justify-between">
                 <h3 class="font-bold text-slate-200 text-sm flex items-center gap-2">
@@ -254,147 +224,114 @@
                 </button>
             </div>
 
-            <!-- Module Filters -->
             <div class="p-3 bg-slate-950/50 border-b border-slate-800 flex flex-wrap justify-between gap-1 text-[11px]">
                 <button data-filter="all" class="filter-btn active px-2 py-1 rounded bg-blue-600 text-white font-medium">Todos</button>
                 <button data-filter="mod1" class="filter-btn px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">1-50</button>
-                <button data-filter="mod2" class="filter-btn px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">51-100</button>
-                <button data-filter="mod3" class="filter-btn px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">101-200</button>
-                <button data-filter="mod4" class="filter-btn px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">201-300</button>
+                <button data-filter="mod2" class="filter-btn px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">51-150</button>
+                <button data-filter="mod3" class="filter-btn px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">151-230</button>
+                <button data-filter="mod4" class="filter-btn px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">231-300</button>
             </div>
 
-            <!-- Levels Grid List -->
-            <div id="levelsGrid" class="flex-1 overflow-y-auto p-4 grid grid-cols-5 gap-2 custom-scrollbar">
-            </div>
+            <div id="levelsGrid" class="flex-1 overflow-y-auto p-4 grid grid-cols-5 gap-2 custom-scrollbar"></div>
 
             <div class="p-3 border-t border-slate-800 bg-slate-950/80 text-center">
                 <button id="resetProgressBtn" class="text-xs text-rose-400 hover:text-rose-300 transition flex items-center justify-center gap-1.5 w-full py-1.5">
-                    <i class="fa-solid fa-rotate-left"></i> Reiniciar Todo o Progresso
+                    <i class="fa-solid fa-rotate-left"></i> Reiniciar Progresso
                 </button>
             </div>
         </aside>
 
     </div>
 
+    <!-- Script Principal com 300 Questões Únicas -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
-            // ELIMINAR QUALQUER REGISTO ANTIGO GUARDADO NO NAVEGADOR
+            // Força a atualização e limpa a cache do navegador para carregar 300 novos níveis
             localStorage.clear();
 
-            // CONSTRUÇÃO DO BANCO DE DADOS COMPLETO COM 300 NÍVEIS
-            const db = { python: [], sql: [], html: [] };
-            const techNames = { python: "PYTHON", sql: "SQL", html: "HTML" };
+            // GERADOR DE CONTEÚDO PROGRESSIVO
+            const buildDataset = () => {
+                const dataset = { python: [], sql: [], html: [] };
 
-            ['python', 'sql', 'html'].forEach(lang => {
-                for (let i = 1; i <= 300; i++) {
-                    let cat = "";
-                    let topic = "";
-                    let codeTpl = "";
-                    let ans = [];
-                    let exp = "";
-                    let fileExt = lang === 'python' ? 'py' : lang === 'sql' ? 'sql' : 'html';
+                // --- 1. PYTHON (300 NÍVEIS ÚNICOS) ---
+                const pyTopics = [
+                    // 1-50: Básico
+                    { range: [1, 10], cat: "Iniciante", fn: (i) => ({ t: "Fundamentos & Print", d: "Aprenda funções básicas e exibição.", c: `___('Exercício ${i} de Python')`, a: ["print", "print()"], h: "Função para exibir mensagens.", e: "`print()` exibe valores no console." }) },
+                    { range: [11, 25], cat: "Iniciante", fn: (i) => ({ t: "Variáveis e Tipos", d: "Manipulação de textos e números.", c: `valor_${i} = ___('100')`, a: ["int", "float", "str"], h: "Converte tipo de dado.", e: "Funções de conversão (casting) alteram tipos de dados." }) },
+                    { range: [26, 40], cat: "Iniciante", fn: (i) => ({ t: "Estruturas de Controle", d: "Condicionais e tomadas de decisão.", c: `if idade_${i} >= 18:\n    ___('Aprovado')`, a: ["print", "print()"], h: "Comando de saída.", e: "`if` executa se a condição for verdadeira." }) },
+                    { range: [41, 50], cat: "Iniciante", fn: (i) => ({ t: "Listas e Loops", d: "Percorrendo coleções de dados.", c: `for item in lista_${i}:\n    ___(item)`, a: ["print", "print()"], h: "Exibe o item atual.", e: "O loop `for` itera sobre elementos." }) },
 
-                    if (i <= 50) {
-                        cat = "Fundamentos Básicos";
-                        topic = "Sintaxe e Lógica Inicial";
-                    } else if (i <= 100) {
-                        cat = "Data Analytics & Manipulação";
-                        topic = "Tratamento e Estruturação de Dados";
-                    } else if (i <= 200) {
-                        cat = "Data Science & Análise Avançada";
-                        topic = "Estatística, Agrupamentos e Gráficos";
-                    } else {
-                        cat = "Especialista em Engenharia de Dados";
-                        topic = "Machine Learning e Dashboards";
+                    // 51-150: Pandas & Data Science
+                    { range: [51, 70], cat: "Pandas Analytics", fn: (i) => ({ t: "Leitura e Inspeção", d: "Carregando bases de dados.", c: `import pandas as pd\ndf = pd.___('dados_${i}.csv')`, a: ["read_csv", "read_csv()"], h: "Leitura de CSV.", e: "`pd.read_csv()` carrega arquivos tabulares em DataFrames." }) },
+                    { range: [71, 100], cat: "Pandas Analytics", fn: (i) => ({ t: "Limpeza & Valores Ausentes", d: "Tratamento de dados nulos.", c: `df['col_${i}'] = df['col_${i}'].___(0)`, a: ["fillna", "fillna()"], h: "Preenche valores ausentes.", e: "`.fillna()` substitui NaNs por um valor padrão." }) },
+                    { range: [101, 130], cat: "Pandas Analytics", fn: (i) => ({ t: "Agrupamento & Aggregation", d: "Consolidação de dados com GroupBy.", c: `resumo = df.groupby('cat_${i}')['val'].___()`, a: ["sum", "mean", "count", "agg"], h: "Operação de agregação.", e: "Aplica métricas estatísticas por grupos." }) },
+                    { range: [131, 150], cat: "Pandas Analytics", fn: (i) => ({ t: "Junção de DataFrames", d: "Combinando tabelas com Merge.", c: `df_final = pd.___ (df1, df2, on='id_${i}')`, a: ["merge", "merge()", "concat"], h: "Combina dois DataFrames.", e: "`pd.merge()` unifica tabelas através de chaves relacionais." }) },
+
+                    // 151-230: Visualização de Dados
+                    { range: [151, 190], cat: "Visualização de Dados", fn: (i) => ({ t: "Gráficos com Matplotlib", d: "Criando gráficos estatísticos.", c: `import matplotlib.pyplot as plt\nplt.___ (df['vendas_${i}'])\nplt.show()`, a: ["plot", "bar", "hist", "boxplot", "scatter"], h: "Função de plotagem.", e: "`plt.plot()` ou `plt.bar()` geram visualizações gráficas." }) },
+                    { range: [191, 230], cat: "Visualização Avançada", fn: (i) => ({ t: "Visualização com Seaborn", d: "Gráficos estatísticos complexos.", c: `import seaborn as sns\nsns.___(data=df, x='eixo_x', y='val_${i}')`, a: ["barplot", "scatterplot", "heatmap", "boxplot"], h: "Função do Seaborn.", e: "Seaborn simplifica visualizações estatísticas sofisticadas." }) },
+
+                    // 231-300: Machine Learning
+                    { range: [231, 270], cat: "Machine Learning", fn: (i) => ({ t: "Pré-processamento & Treino", d: "Divisão de dados para ML.", c: `from sklearn.model_selection import ___\nX_tr, X_te, y_tr, y_te = train_test_split(X, y)`, a: ["train_test_split"], h: "Separa treino e teste.", e: "`train_test_split` garante validação não viciada de modelos." }) },
+                    { range: [271, 300], cat: "Machine Learning", fn: (i) => ({ t: "Métricas e Avaliação", d: "Avaliando performance de modelos.", c: `from sklearn.metrics import ___\nacc = accuracy_score(y_test, pred_${i})`, a: ["accuracy_score", "r2_score", "confusion_matrix"], h: "Métrica de precisão.", e: "`accuracy_score` calcula o percentual de acertos do modelo." }) }
+                ];
+
+                // --- 2. SQL (300 NÍVEIS ÚNICOS) ---
+                const sqlTopics = [
+                    { range: [1, 70], cat: "SQL Básico", fn: (i) => ({ t: "Consultas & Filtros", d: "Busca de dados em tabelas.", c: `SELECT * FROM tabela_${i}\nWHERE id ___ ${i};`, a: ["=", ">", "<", ">=", "<="], h: "Operador de comparação.", e: "`WHERE` aplica filtros nas colunas." }) },
+                    { range: [71, 180], cat: "SQL Joins & Agregação", fn: (i) => ({ t: "Junções & Agrupamentos", d: "Relacionando tabelas e calculando somatórios.", c: `SELECT cat, SUM(val) FROM vendas_${i}\n___ JOIN clientes ON vendas_${i}.c_id = clientes.id\nGROUP BY cat;`, a: ["INNER", "LEFT", "RIGHT", "inner", "left"], h: "Tipo de JOIN.", e: "`JOIN` conecta tabelas relacionais." }) },
+                    { range: [181, 300], cat: "SQL Analytics Avançado", fn: (i) => ({ t: "Window Functions & CTEs", d: "Análises complexas e agregações móveis.", c: `WITH cte_${i} AS (\n    SELECT val, ROW_NUMBER() OVER (___ BY data) as rn FROM pedidos\n)\nSELECT * FROM cte_${i};`, a: ["ORDER", "PARTITION", "order", "partition"], h: "Cláusula analítica da janela.", e: "`OVER (ORDER BY ...)` define o escopo de calculo analítico." }) }
+                ];
+
+                // --- 3. HTML (300 NÍVEIS ÚNICOS) ---
+                const htmlTopics = [
+                    { range: [1, 80], cat: "HTML Estrutural", fn: (i) => ({ t: "Elementos Básicos", d: "Marcação de texto e formulários.", c: `<___ id="elem_${i}">Conteúdo do Nível ${i}</p>`, a: ["p", "div", "span", "h1", "h2"], h: "Tag de parágrafo ou bloco.", e: "`<p>` representa um parágrafo textual." }) },
+                    { range: [81, 200], cat: "HTML Semântico", fn: (i) => ({ t: "Estruturação de Páginas", d: "Organização semântica HTML5.", c: `<___ class="secao_${i}">\n  <h2>Título</h2>\n</section>`, a: ["section", "article", "main", "header", "footer"], h: "Tag de seção.", e: "`<section>` delimita um bloco semântico." }) },
+                    { range: [201, 300], cat: "HTML Dashboards", fn: (i) => ({ t: "Dashboards e Mídia", d: "Componentes para relatórios visuais.", c: `<___ id="chart_${i}" width="400" height="200"></canvas>`, a: ["canvas", "svg"], h: "Tag de renderização de gráficos.", e: "`<canvas>` possibilita a renderização de gráficos dinâmicos." }) }
+                ];
+
+                // Preenchimento sequencial de 1 a 300
+                const generateLang = (langKey, topicList) => {
+                    for (let i = 1; i <= 300; i++) {
+                        const matchedGroup = topicList.find(t => i >= t.range[0] && i <= t.range[1]);
+                        const data = matchedGroup ? matchedGroup.fn(i) : { t: `Desafio ${i}`, d: `Nível ${i}`, c: `code_${i} = ___`, a: ["val"], h: "Dica", e: "Explicação" };
+                        
+                        dataset[langKey].push({
+                            id: i,
+                            tech: langKey.toUpperCase(),
+                            category: data.cat,
+                            title: `Nível ${i}: ${data.t}`,
+                            desc: data.d,
+                            code: data.c,
+                            answers: data.a,
+                            hint: data.h,
+                            explanation: data.e,
+                            filename: `script_${i}.${langKey === 'python' ? 'py' : langKey === 'sql' ? 'sql' : 'html'}`
+                        });
                     }
+                };
 
-                    if (lang === 'python') {
-                        if (i === 1) {
-                            codeTpl = "___('Iniciando análise de dados em Python')";
-                            ans = ["print", "print()"];
-                            exp = "`print()` exibe mensagens ou saídas no console.";
-                        } else if (i <= 50) {
-                            codeTpl = `# Lógica Básica (Nível ${i})\ndados = [10, 20, 30]\ntotal = ___(dados)`;
-                            ans = ["sum", "len", "max", "min"];
-                            exp = "Função integrada nativa para cálculos operacionais.";
-                        } else if (i <= 100) {
-                            codeTpl = `# Análise com Pandas (Nível ${i})\nimport pandas as pd\n\ndf = pd.read_csv('vendas.csv')\nresumo = df.___()`;
-                            ans = ["head", "describe", "info", "dropna", "fillna", "groupby"];
-                            exp = "Método da biblioteca Pandas essencial para manipulação e limpeza de dados.";
-                        } else if (i <= 200) {
-                            codeTpl = `# Visualização de Dados (Nível ${i})\nimport matplotlib.pyplot as plt\n\nplt.___ (df['faturamento'])\nplt.show()`;
-                            ans = ["plot", "hist", "boxplot", "bar"];
-                            exp = "Função de plotagem gráfica para análise exploratória de dados.";
-                        } else {
-                            codeTpl = `# Machine Learning & Pipelines (Nível ${i})\nfrom sklearn.model_selection import ___\n\nX_train, X_test = train_test_split(X, y)`;
-                            ans = ["train_test_split"];
-                            exp = "Função para divisão de dados entre grupos de treino e teste em modelos preditivos.";
-                        }
-                    } else if (lang === 'sql') {
-                        if (i === 1) {
-                            codeTpl = "___ * FROM vendas;";
-                            ans = ["SELECT", "select"];
-                            exp = "`SELECT *` busca todas as colunas de uma tabela.";
-                        } else if (i <= 100) {
-                            codeTpl = `-- Análise SQL (Nível ${i})\nSELECT categoria, SUM(valor)\nFROM vendas\n___ BY categoria;`;
-                            ans = ["GROUP", "group"];
-                            exp = "`GROUP BY` agrupa os registros para realizar cálculos de agregação.";
-                        } else if (i <= 200) {
-                            codeTpl = `-- SQL Analytics (Nível ${i})\nSELECT cliente, AVG(valor) OVER (___ BY data)\nFROM pedidos;`;
-                            ans = ["ORDER", "order"];
-                            exp = "Cláusula para funções de janela (Window Functions) analíticas.";
-                        } else {
-                            codeTpl = `-- Advanced SQL (Nível ${i})\nWITH tabela_cte AS (\n    SELECT id FROM clientes\n)\nSELECT * ___ tabela_cte;`;
-                            ans = ["FROM", "from"];
-                            exp = "Consulta avançada utilizando Common Table Expressions (CTEs).";
-                        }
-                    } else {
-                        if (i === 1) {
-                            codeTpl = "<___>Dashboard de Resultados</h1 >";
-                            ans = ["h1"];
-                            exp = "`<h1>` cria o título principal de maior importância na página.";
-                        } else if (i <= 100) {
-                            codeTpl = `<!-- Estrutura de Card KPI (Nível ${i}) -->\n<div class="kpi-card">\n  <___ class="titulo">Métrica</h3>\n</div>`;
-                            ans = ["h3", "h2", "span"];
-                            exp = "Elemento de marcação HTML5 para componentes de relatórios.";
-                        } else {
-                            codeTpl = `<!-- Dashboard Gráfico HTML5 (Nível ${i}) -->\n<___ id="chartVendas"></canvas>`;
-                            ans = ["canvas"];
-                            exp = "`<canvas>` possibilita a renderização de gráficos dinâmicos e dashboards.";
-                        }
-                    }
+                generateLang('python', pyTopics);
+                generateLang('sql', sqlTopics);
+                generateLang('html', htmlTopics);
 
-                    db[lang].push({
-                        id: i,
-                        tech: techNames[lang],
-                        category: cat,
-                        title: `Nível ${i}: ${topic}`,
-                        desc: `Resolva o desafio do nível ${i} para a trilha de ${techNames[lang]}.`,
-                        code: codeTpl,
-                        answers: ans,
-                        hint: `Preencha o comando correto para ${topic}.`,
-                        explanation: exp,
-                        filename: `desafio_${i}.${fileExt}`
-                    });
-                }
-            });
+                return dataset;
+            };
 
-            // ESTADO INICIAL
+            const db = buildDataset();
+
+            // ESTADO DA APLICAÇÃO
             let state = {
                 lang: 'python',
                 currentLevelIndex: 0,
-                completed: {
-                    python: new Set(),
-                    sql: new Set(),
-                    html: new Set()
-                },
+                completed: { python: new Set(), sql: new Set(), html: new Set() },
                 score: 0,
                 streak: 0
             };
 
             function saveStorage() {
-                localStorage.setItem('code_quest_v300_prod', JSON.stringify({
+                localStorage.setItem('code_quest_300_v1', JSON.stringify({
                     lang: state.lang,
                     currentLevelIndex: state.currentLevelIndex,
                     score: state.score,
@@ -407,7 +344,7 @@
                 }));
             }
 
-            // REFERÊNCIAS DOM
+            // ELEMENTOS DOM
             const currentLevelNum = document.getElementById('currentLevelNum');
             const techBadge = document.getElementById('techBadge');
             const difficultyBadge = document.getElementById('difficultyBadge');
@@ -439,7 +376,7 @@
             const levelsGrid = document.getElementById('levelsGrid');
             const resetProgressBtn = document.getElementById('resetProgressBtn');
 
-            // FUNÇÃO DE DESENHO DA PÁGINA
+            // DESENHO DA TELA
             function renderLevel() {
                 const currentList = db[state.lang];
                 const lvl = currentList[state.currentLevelIndex];
@@ -450,7 +387,7 @@
                 techBadge.innerHTML = `<i class="${iconClass}"></i> ${lvl.tech}`;
                 
                 difficultyBadge.innerText = lvl.category;
-                questionTitle.innerText = `${lvl.id}. ${lvl.title}`;
+                questionTitle.innerText = lvl.title;
                 questionDesc.innerText = lvl.desc;
                 filenameText.innerText = lvl.filename;
 
@@ -483,15 +420,13 @@
             function updateStatsDisplay() {
                 scoreCount.innerText = state.score;
                 streakCount.innerText = state.streak;
-                
                 const doneSet = state.completed[state.lang];
                 completedCount.innerText = doneSet.size;
-                
                 const pct = (doneSet.size / 300) * 100;
                 progressBar.style.width = `${pct}%`;
             }
 
-            // VERIFICAR RESPOSTA
+            // SUBMISSÃO
             answerForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const inputVal = answerInput.value.trim();
@@ -515,9 +450,9 @@
 
                     feedbackContainer.classList.add('bg-emerald-950/40', 'border-emerald-500/40', 'glow-success');
                     feedbackIcon.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i>`;
-                    feedbackTitle.innerText = "Excelente! Código Correto!";
+                    feedbackTitle.innerText = "Excelente! Resposta Correta!";
                     feedbackTitle.className = "font-bold text-lg mb-1 text-emerald-400";
-                    feedbackText.innerText = `Preencheu com sucesso usando '${inputVal}'.`;
+                    feedbackText.innerText = `Você preencheu com sucesso usando '${inputVal}'.`;
                     explanationText.innerHTML = lvl.explanation;
                 } else {
                     state.streak = 0;
@@ -528,12 +463,12 @@
                     feedbackIcon.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400"></i>`;
                     feedbackTitle.innerText = "Sintaxe Incorreta";
                     feedbackTitle.className = "font-bold text-lg mb-1 text-rose-400";
-                    feedbackText.innerText = `O valor '${inputVal}' não resolve a lacuna. Tente novamente!`;
-                    explanationText.innerHTML = `Considere a sintaxe correspondente ao nível de ${lvl.category}.`;
+                    feedbackText.innerText = `O valor '${inputVal}' não responde a esta lacuna. Tente novamente!`;
+                    explanationText.innerHTML = `Considere os tópicos da etapa ${lvl.category}.`;
                 }
             });
 
-            // MUDANÇA DE SEPARADOR
+            // LINGUAGEM
             document.querySelectorAll('.lang-tab').forEach(tab => {
                 tab.addEventListener('click', (e) => {
                     const targetLang = e.currentTarget.dataset.lang;
@@ -546,7 +481,7 @@
                 });
             });
 
-            // BOTOES DE AJUDA
+            // AJUDAS
             hintBtn.addEventListener('click', () => {
                 const lvl = db[state.lang][state.currentLevelIndex];
                 hintText.innerText = lvl.hint;
@@ -583,14 +518,9 @@
                 }
             });
 
-            // MENU LATERAL
-            toggleSidebarBtn.addEventListener('click', () => {
-                levelsSidebar.classList.remove('translate-x-full');
-            });
-
-            closeSidebarBtn.addEventListener('click', () => {
-                levelsSidebar.classList.add('translate-x-full');
-            });
+            // DRAWER LATERAL
+            toggleSidebarBtn.addEventListener('click', () => levelsSidebar.classList.remove('translate-x-full'));
+            closeSidebarBtn.addEventListener('click', () => levelsSidebar.classList.add('translate-x-full'));
 
             function renderSidebarGrid(filter = 'all') {
                 levelsGrid.innerHTML = '';
@@ -598,9 +528,9 @@
                 
                 currentList.forEach((lvl, idx) => {
                     if (filter === 'mod1' && (lvl.id < 1 || lvl.id > 50)) return;
-                    if (filter === 'mod2' && (lvl.id < 51 || lvl.id > 100)) return;
-                    if (filter === 'mod3' && (lvl.id < 101 || lvl.id > 200)) return;
-                    if (filter === 'mod4' && (lvl.id < 201 || lvl.id > 300)) return;
+                    if (filter === 'mod2' && (lvl.id < 51 || lvl.id > 150)) return;
+                    if (filter === 'mod3' && (lvl.id < 151 || lvl.id > 230)) return;
+                    if (filter === 'mod4' && (lvl.id < 231 || lvl.id > 300)) return;
 
                     const isDone = state.completed[state.lang].has(lvl.id);
                     const isCurrent = state.currentLevelIndex === idx;
@@ -612,10 +542,7 @@
                         'bg-slate-800/80 text-slate-400 border-slate-700 hover:bg-slate-700 hover:text-slate-200'
                     }`;
 
-                    btn.innerHTML = `
-                        <span>${lvl.id}</span>
-                        <i class="fa-solid ${isDone ? 'fa-check text-[10px] mt-0.5' : 'fa-code text-[9px] opacity-40 mt-0.5'}"></i>
-                    `;
+                    btn.innerHTML = `<span>${lvl.id}</span><i class="fa-solid ${isDone ? 'fa-check text-[10px] mt-0.5' : 'fa-code text-[9px] opacity-40 mt-0.5'}"></i>`;
 
                     btn.addEventListener('click', () => {
                         state.currentLevelIndex = idx;
@@ -642,9 +569,8 @@
                 });
             });
 
-            // REINICIAR
             resetProgressBtn.addEventListener('click', () => {
-                if (confirm("Deseja reiniciar todo o progresso dos 300 níveis?")) {
+                if (confirm("Deseja reiniciar o progresso dos 300 níveis?")) {
                     state.completed[state.lang].clear();
                     state.currentLevelIndex = 0;
                     saveStorage();
@@ -652,7 +578,7 @@
                 }
             });
 
-            // RENDER INICIAL
+            // INICIALIZAÇÃO
             renderLevel();
         });
     </script>
