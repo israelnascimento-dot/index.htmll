@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Code Quest - 300 Níveis (Python Data Science, SQL & HTML)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ide: {
+                            bg: '#0f172a',
+                            sidebar: '#1e293b',
+                            card: '#1e293b',
+                            border: '#334155',
+                            accent: '#3b82f6',
+                            success: '#10b981',
+                            error: '#ef4444',
+                            warning: '#f59e0b'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['Fira Code', 'Consolas', 'Monaco', 'monospace'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+            color: #f1f5f9;
+        }
+        pre, code, input.code-input {
+            font-family: 'Fira Code', monospace;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+        .glow-success {
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        }
+        .glow-error {
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-950 text-slate-100 overflow-x-hidden">
+
+    <!-- Navbar -->
+    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40 px-4 py-3">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-blue-600/20 text-blue-400 rounded-lg border border-blue-500/30">
+                    <i class="fa-solid fa-code text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                        Code Quest: Data & Dev Pro
+                    </h1>
+                    <p class="text-xs text-slate-400">300 Desafios Práticos por Linguagem</p>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats -->
+            <div class="flex items-center space-x-4 text-sm">
+                <div class="flex items-center space-x-1.5 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700">
+                    <i class="fa-solid fa-fire text-orange-500"></i>
+                    <span id="streakCount" class="font-semibold text-slate-200">0</span>
+                    <span class="text-xs text-slate-400 hidden sm:inline">Streak</span>
+                </div>
+                <div class="flex items-center space-x-1.5 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700">
+                    <i class="fa-solid fa-star text-yellow-400"></i>
+                    <span id="scoreCount" class="font-semibold text-slate-200">0</span>
+                    <span class="text-xs text-slate-400 hidden sm:inline">XP</span>
+                </div>
+                <div class="flex items-center space-x-1.5 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700">
+                    <i class="fa-solid fa-check-circle text-emerald-400"></i>
+                    <span id="completedCount" class="font-semibold text-slate-200">0</span>/300
+                </div>
+                <button id="toggleSidebarBtn" class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-300 transition">
+                    <i class="fa-solid fa-list-check"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Global Progress Bar -->
+        <div class="w-full bg-slate-800 h-1.5 mt-3 rounded-full overflow-hidden">
+            <div id="progressBar" class="bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-400 h-full w-0 transition-all duration-500"></div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex max-w-7xl w-full mx-auto relative overflow-hidden">
+
+        <!-- Main Challenge View -->
+        <main class="flex-1 p-4 md:p-6 flex flex-col max-w-4xl mx-auto w-full">
+
+            <!-- Language Selector Tabs -->
+            <div class="mb-5 flex items-center gap-2 p-1.5 bg-slate-900 border border-slate-800 rounded-xl overflow-x-auto">
+                <button data-lang="python" class="lang-tab flex-1 py-2 px-4 rounded-lg text-xs md:text-sm font-semibold transition flex items-center justify-center gap-2 bg-blue-600 text-white shadow">
+                    <i class="fa-brands fa-python text-base"></i> Python (Data Science)
+                </button>
+                <button data-lang="sql" class="lang-tab flex-1 py-2 px-4 rounded-lg text-xs md:text-sm font-semibold transition flex items-center justify-center gap-2 bg-slate-800 text-slate-400 hover:text-slate-200">
+                    <i class="fa-solid fa-database text-base"></i> SQL Analytics
+                </button>
+                <button data-lang="html" class="lang-tab flex-1 py-2 px-4 rounded-lg text-xs md:text-sm font-semibold transition flex items-center justify-center gap-2 bg-slate-800 text-slate-400 hover:text-slate-200">
+                    <i class="fa-brands fa-html5 text-base"></i> HTML & Dashboards
+                </button>
+            </div>
+            
+            <!-- Level & Tech Badge Row -->
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                <div class="flex items-center space-x-2">
+                    <span id="levelBadge" class="px-3 py-1 bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-md font-semibold text-sm">
+                        Nível <span id="currentLevelNum">1</span>/300
+                    </span>
+                    <span id="techBadge" class="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-md font-medium text-xs flex items-center gap-1.5">
+                        <i class="fa-brands fa-python"></i> Python
+                    </span>
+                    <span id="difficultyBadge" class="px-3 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-md text-xs font-medium">
+                        Fundamentos
+                    </span>
+                </div>
+
+                <!-- Navigation Quick Buttons -->
+                <div class="flex items-center space-x-2">
+                    <button id="prevBtn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded-lg transition disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-left mr-1"></i> Anterior
+                    </button>
+                    <button id="nextBtn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded-lg transition disabled:opacity-40 disabled:cursor-not-allowed">
+                        Próximo <i class="fa-solid fa-chevron-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Question Box -->
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-5 shadow-xl">
+                <h2 id="questionTitle" class="text-lg md:text-xl font-bold text-slate-100 mb-2">
+                    Carregando nível...
+                </h2>
+                <p id="questionDesc" class="text-slate-300 text-sm leading-relaxed mb-4">
+                    Descrição da questão...
+                </p>
+
+                <!-- Code Terminal Box -->
+                <div class="bg-slate-950 border border-slate-800 rounded-lg overflow-hidden shadow-inner font-mono text-sm">
+                    <!-- Terminal Top Bar -->
+                    <div class="bg-slate-900/80 px-4 py-2 border-b border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-500/80 inline-block"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+                            <span class="ml-2 font-medium text-slate-400" id="filenameText">script.py</span>
+                        </div>
+                        <span class="text-[10px] text-slate-500 uppercase tracking-wider">Preencha a lacuna ___</span>
+                    </div>
+
+                    <!-- Code Snippet Display with Interactive Gap -->
+                    <div class="p-4 overflow-x-auto text-slate-200 leading-relaxed relative">
+                        <pre id="codeSnippet" class="whitespace-pre-wrap break-words"></pre>
+                    </div>
+                </div>
+
+                <!-- Input Form -->
+                <form id="answerForm" class="mt-4 flex flex-col sm:flex-row items-stretch gap-3">
+                    <div class="relative flex-1">
+                        <input 
+                            type="text" 
+                            id="answerInput" 
+                            placeholder="Digite aqui o código que falta na lacuna '___'" 
+                            class="w-full bg-slate-950 border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 rounded-lg px-4 py-3 text-sm text-slate-100 placeholder-slate-500 outline-none transition font-mono"
+                            autocomplete="off"
+                            spellcheck="false"
+                        >
+                        <span class="absolute right-3 top-3 text-xs text-slate-500 hidden sm:inline">Pressione Enter ↵</span>
+                    </div>
+                    <button 
+                        type="submit" 
+                        class="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm rounded-lg shadow-lg shadow-blue-600/20 transition flex items-center justify-center space-x-2 shrink-0"
+                    >
+                        <i class="fa-solid fa-play text-xs"></i>
+                        <span>Executar</span>
+                    </button>
+                </form>
+
+                <!-- Actions: Hint & Solution -->
+                <div class="mt-4 flex items-center justify-between pt-3 border-t border-slate-800 text-xs">
+                    <button id="hintBtn" class="text-amber-400 hover:text-amber-300 flex items-center space-x-1.5 transition">
+                        <i class="fa-regular fa-lightbulb"></i>
+                        <span>Pedir Dica</span>
+                    </button>
+                    <button id="revealBtn" class="text-slate-400 hover:text-slate-200 flex items-center space-x-1.5 transition">
+                        <i class="fa-regular fa-eye"></i>
+                        <span>Revelar Solução</span>
+                    </button>
+                </div>
+
+                <!-- Hint Container -->
+                <div id="hintBox" class="hidden mt-3 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg text-amber-200 text-xs">
+                    <span class="font-bold"><i class="fa-solid fa-lightbulb mr-1"></i> Dica:</span> <span id="hintText">...</span>
+                </div>
+            </div>
+
+            <!-- Feedback Modal / Result Container -->
+            <div id="feedbackContainer" class="hidden rounded-xl border p-5 mb-5 transition-all duration-300">
+                <div class="flex items-start space-x-3">
+                    <div id="feedbackIcon" class="text-2xl mt-0.5"></div>
+                    <div class="flex-1">
+                        <h3 id="feedbackTitle" class="font-bold text-lg mb-1"></h3>
+                        <p id="feedbackText" class="text-sm leading-relaxed mb-3 text-slate-300"></p>
+                        <div id="explanationBox" class="p-3 bg-slate-950/60 rounded-lg border border-slate-800 text-xs text-slate-300 space-y-1">
+                            <span class="font-semibold text-blue-400 uppercase tracking-wider text-[10px] block">Explicação Didática:</span>
+                            <div id="explanationText"></div>
+                        </div>
+                        <button id="nextLevelFeedbackBtn" class="mt-4 px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg shadow-md transition flex items-center space-x-2">
+                            <span>Avançar para o Próximo Nível</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Levels Drawer / Sidebar -->
+        <aside id="levelsSidebar" class="fixed inset-y-0 right-0 w-80 bg-slate-900 border-l border-slate-800 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col">
+            <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+                <h3 class="font-bold text-slate-200 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-cubes text-blue-400"></i> Seleção de Níveis (1-300)
+                </h3>
+                <button id="closeSidebarBtn" class="text-slate-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Module Filters -->
+            <div class="p-3 bg-slate-950/50 border-b border-slate-800 flex flex-wrap justify-between gap-1 text-[11px]">
+                <button data-filter="all" class="filter-btn active px-2 py-1 rounded bg-blue-600 text-white font-medium">Todos</button>
+                <button data-filter="mod1" class="filter-btn px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">1-50</button>
+                <button data-filter="mod2" class="filter-btn px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">51-100</button>
+                <button data-filter="mod3" class="filter-btn px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">101-200</button>
+                <button data-filter="mod4" class="filter-btn px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">201-300</button>
+            </div>
+
+            <!-- Levels Grid List -->
+            <div id="levelsGrid" class="flex-1 overflow-y-auto p-4 grid grid-cols-5 gap-2 custom-scrollbar">
+            </div>
+
+            <div class="p-3 border-t border-slate-800 bg-slate-950/80 text-center">
+                <button id="resetProgressBtn" class="text-xs text-rose-400 hover:text-rose-300 transition flex items-center justify-center gap-1.5 w-full py-1.5">
+                    <i class="fa-solid fa-rotate-left"></i> Reiniciar Todo o Progresso
+                </button>
+            </div>
+        </aside>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // ELIMINAR QUALQUER REGISTO ANTIGO GUARDADO NO NAVEGADOR
+            localStorage.clear();
+
+            // CONSTRUÇÃO DO BANCO DE DADOS COMPLETO COM 300 NÍVEIS
+            const db = { python: [], sql: [], html: [] };
+            const techNames = { python: "PYTHON", sql: "SQL", html: "HTML" };
+
+            ['python', 'sql', 'html'].forEach(lang => {
+                for (let i = 1; i <= 300; i++) {
+                    let cat = "";
+                    let topic = "";
+                    let codeTpl = "";
+                    let ans = [];
+                    let exp = "";
+                    let fileExt = lang === 'python' ? 'py' : lang === 'sql' ? 'sql' : 'html';
+
+                    if (i <= 50) {
+                        cat = "Fundamentos Básicos";
+                        topic = "Sintaxe e Lógica Inicial";
+                    } else if (i <= 100) {
+                        cat = "Data Analytics & Manipulação";
+                        topic = "Tratamento e Estruturação de Dados";
+                    } else if (i <= 200) {
+                        cat = "Data Science & Análise Avançada";
+                        topic = "Estatística, Agrupamentos e Gráficos";
+                    } else {
+                        cat = "Especialista em Engenharia de Dados";
+                        topic = "Machine Learning e Dashboards";
+                    }
+
+                    if (lang === 'python') {
+                        if (i === 1) {
+                            codeTpl = "___('Iniciando análise de dados em Python')";
+                            ans = ["print", "print()"];
+                            exp = "`print()` exibe mensagens ou saídas no console.";
+                        } else if (i <= 50) {
+                            codeTpl = `# Lógica Básica (Nível ${i})\ndados = [10, 20, 30]\ntotal = ___(dados)`;
+                            ans = ["sum", "len", "max", "min"];
+                            exp = "Função integrada nativa para cálculos operacionais.";
+                        } else if (i <= 100) {
+                            codeTpl = `# Análise com Pandas (Nível ${i})\nimport pandas as pd\n\ndf = pd.read_csv('vendas.csv')\nresumo = df.___()`;
+                            ans = ["head", "describe", "info", "dropna", "fillna", "groupby"];
+                            exp = "Método da biblioteca Pandas essencial para manipulação e limpeza de dados.";
+                        } else if (i <= 200) {
+                            codeTpl = `# Visualização de Dados (Nível ${i})\nimport matplotlib.pyplot as plt\n\nplt.___ (df['faturamento'])\nplt.show()`;
+                            ans = ["plot", "hist", "boxplot", "bar"];
+                            exp = "Função de plotagem gráfica para análise exploratória de dados.";
+                        } else {
+                            codeTpl = `# Machine Learning & Pipelines (Nível ${i})\nfrom sklearn.model_selection import ___\n\nX_train, X_test = train_test_split(X, y)`;
+                            ans = ["train_test_split"];
+                            exp = "Função para divisão de dados entre grupos de treino e teste em modelos preditivos.";
+                        }
+                    } else if (lang === 'sql') {
+                        if (i === 1) {
+                            codeTpl = "___ * FROM vendas;";
+                            ans = ["SELECT", "select"];
+                            exp = "`SELECT *` busca todas as colunas de uma tabela.";
+                        } else if (i <= 100) {
+                            codeTpl = `-- Análise SQL (Nível ${i})\nSELECT categoria, SUM(valor)\nFROM vendas\n___ BY categoria;`;
+                            ans = ["GROUP", "group"];
+                            exp = "`GROUP BY` agrupa os registros para realizar cálculos de agregação.";
+                        } else if (i <= 200) {
+                            codeTpl = `-- SQL Analytics (Nível ${i})\nSELECT cliente, AVG(valor) OVER (___ BY data)\nFROM pedidos;`;
+                            ans = ["ORDER", "order"];
+                            exp = "Cláusula para funções de janela (Window Functions) analíticas.";
+                        } else {
+                            codeTpl = `-- Advanced SQL (Nível ${i})\nWITH tabela_cte AS (\n    SELECT id FROM clientes\n)\nSELECT * ___ tabela_cte;`;
+                            ans = ["FROM", "from"];
+                            exp = "Consulta avançada utilizando Common Table Expressions (CTEs).";
+                        }
+                    } else {
+                        if (i === 1) {
+                            codeTpl = "<___>Dashboard de Resultados</h1 >";
+                            ans = ["h1"];
+                            exp = "`<h1>` cria o título principal de maior importância na página.";
+                        } else if (i <= 100) {
+                            codeTpl = `<!-- Estrutura de Card KPI (Nível ${i}) -->\n<div class="kpi-card">\n  <___ class="titulo">Métrica</h3>\n</div>`;
+                            ans = ["h3", "h2", "span"];
+                            exp = "Elemento de marcação HTML5 para componentes de relatórios.";
+                        } else {
+                            codeTpl = `<!-- Dashboard Gráfico HTML5 (Nível ${i}) -->\n<___ id="chartVendas"></canvas>`;
+                            ans = ["canvas"];
+                            exp = "`<canvas>` possibilita a renderização de gráficos dinâmicos e dashboards.";
+                        }
+                    }
+
+                    db[lang].push({
+                        id: i,
+                        tech: techNames[lang],
+                        category: cat,
+                        title: `Nível ${i}: ${topic}`,
+                        desc: `Resolva o desafio do nível ${i} para a trilha de ${techNames[lang]}.`,
+                        code: codeTpl,
+                        answers: ans,
+                        hint: `Preencha o comando correto para ${topic}.`,
+                        explanation: exp,
+                        filename: `desafio_${i}.${fileExt}`
+                    });
+                }
+            });
+
+            // ESTADO INICIAL
+            let state = {
+                lang: 'python',
+                currentLevelIndex: 0,
+                completed: {
+                    python: new Set(),
+                    sql: new Set(),
+                    html: new Set()
+                },
+                score: 0,
+                streak: 0
+            };
+
+            function saveStorage() {
+                localStorage.setItem('code_quest_v300_prod', JSON.stringify({
+                    lang: state.lang,
+                    currentLevelIndex: state.currentLevelIndex,
+                    score: state.score,
+                    streak: state.streak,
+                    completed: {
+                        python: Array.from(state.completed.python),
+                        sql: Array.from(state.completed.sql),
+                        html: Array.from(state.completed.html)
+                    }
+                }));
+            }
+
+            // REFERÊNCIAS DOM
+            const currentLevelNum = document.getElementById('currentLevelNum');
+            const techBadge = document.getElementById('techBadge');
+            const difficultyBadge = document.getElementById('difficultyBadge');
+            const questionTitle = document.getElementById('questionTitle');
+            const questionDesc = document.getElementById('questionDesc');
+            const filenameText = document.getElementById('filenameText');
+            const codeSnippet = document.getElementById('codeSnippet');
+            const answerInput = document.getElementById('answerInput');
+            const answerForm = document.getElementById('answerForm');
+            const hintBtn = document.getElementById('hintBtn');
+            const revealBtn = document.getElementById('revealBtn');
+            const hintBox = document.getElementById('hintBox');
+            const hintText = document.getElementById('hintText');
+            const feedbackContainer = document.getElementById('feedbackContainer');
+            const feedbackIcon = document.getElementById('feedbackIcon');
+            const feedbackTitle = document.getElementById('feedbackTitle');
+            const feedbackText = document.getElementById('feedbackText');
+            const explanationText = document.getElementById('explanationText');
+            const nextLevelFeedbackBtn = document.getElementById('nextLevelFeedbackBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const scoreCount = document.getElementById('scoreCount');
+            const streakCount = document.getElementById('streakCount');
+            const completedCount = document.getElementById('completedCount');
+            const progressBar = document.getElementById('progressBar');
+            const levelsSidebar = document.getElementById('levelsSidebar');
+            const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+            const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+            const levelsGrid = document.getElementById('levelsGrid');
+            const resetProgressBtn = document.getElementById('resetProgressBtn');
+
+            // FUNÇÃO DE DESENHO DA PÁGINA
+            function renderLevel() {
+                const currentList = db[state.lang];
+                const lvl = currentList[state.currentLevelIndex];
+
+                currentLevelNum.innerText = lvl.id;
+                
+                let iconClass = state.lang === 'python' ? 'fa-brands fa-python' : state.lang === 'sql' ? 'fa-solid fa-database' : 'fa-brands fa-html5';
+                techBadge.innerHTML = `<i class="${iconClass}"></i> ${lvl.tech}`;
+                
+                difficultyBadge.innerText = lvl.category;
+                questionTitle.innerText = `${lvl.id}. ${lvl.title}`;
+                questionDesc.innerText = lvl.desc;
+                filenameText.innerText = lvl.filename;
+
+                const formattedCode = lvl.code.replace('___', '<span class="bg-blue-600/30 text-blue-300 border-b-2 border-blue-400 px-2 py-0.5 rounded font-bold animate-pulse">___</span>');
+                codeSnippet.innerHTML = formattedCode;
+
+                answerInput.value = '';
+                answerInput.focus();
+                hintBox.classList.add('hidden');
+                feedbackContainer.classList.add('hidden');
+
+                prevBtn.disabled = state.currentLevelIndex === 0;
+                nextBtn.disabled = state.currentLevelIndex === currentList.length - 1;
+
+                updateStatsDisplay();
+                renderSidebarGrid();
+                updateTabUI();
+            }
+
+            function updateTabUI() {
+                document.querySelectorAll('.lang-tab').forEach(tab => {
+                    if (tab.dataset.lang === state.lang) {
+                        tab.className = "lang-tab flex-1 py-2 px-4 rounded-lg text-xs md:text-sm font-semibold transition flex items-center justify-center gap-2 bg-blue-600 text-white shadow";
+                    } else {
+                        tab.className = "lang-tab flex-1 py-2 px-4 rounded-lg text-xs md:text-sm font-semibold transition flex items-center justify-center gap-2 bg-slate-800 text-slate-400 hover:text-slate-200";
+                    }
+                });
+            }
+
+            function updateStatsDisplay() {
+                scoreCount.innerText = state.score;
+                streakCount.innerText = state.streak;
+                
+                const doneSet = state.completed[state.lang];
+                completedCount.innerText = doneSet.size;
+                
+                const pct = (doneSet.size / 300) * 100;
+                progressBar.style.width = `${pct}%`;
+            }
+
+            // VERIFICAR RESPOSTA
+            answerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const inputVal = answerInput.value.trim();
+                const currentList = db[state.lang];
+                const lvl = currentList[state.currentLevelIndex];
+
+                if (!inputVal) return;
+
+                const isCorrect = lvl.answers.some(ans => ans.toLowerCase() === inputVal.toLowerCase());
+
+                feedbackContainer.classList.remove('hidden', 'bg-emerald-950/40', 'border-emerald-500/40', 'bg-rose-950/40', 'border-rose-500/40');
+
+                if (isCorrect) {
+                    if (!state.completed[state.lang].has(lvl.id)) {
+                        state.completed[state.lang].add(lvl.id);
+                        state.score += 100;
+                        state.streak += 1;
+                    }
+                    saveStorage();
+                    updateStatsDisplay();
+
+                    feedbackContainer.classList.add('bg-emerald-950/40', 'border-emerald-500/40', 'glow-success');
+                    feedbackIcon.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i>`;
+                    feedbackTitle.innerText = "Excelente! Código Correto!";
+                    feedbackTitle.className = "font-bold text-lg mb-1 text-emerald-400";
+                    feedbackText.innerText = `Preencheu com sucesso usando '${inputVal}'.`;
+                    explanationText.innerHTML = lvl.explanation;
+                } else {
+                    state.streak = 0;
+                    saveStorage();
+                    updateStatsDisplay();
+
+                    feedbackContainer.classList.add('bg-rose-950/40', 'border-rose-500/40', 'glow-error');
+                    feedbackIcon.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400"></i>`;
+                    feedbackTitle.innerText = "Sintaxe Incorreta";
+                    feedbackTitle.className = "font-bold text-lg mb-1 text-rose-400";
+                    feedbackText.innerText = `O valor '${inputVal}' não resolve a lacuna. Tente novamente!`;
+                    explanationText.innerHTML = `Considere a sintaxe correspondente ao nível de ${lvl.category}.`;
+                }
+            });
+
+            // MUDANÇA DE SEPARADOR
+            document.querySelectorAll('.lang-tab').forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    const targetLang = e.currentTarget.dataset.lang;
+                    if (targetLang !== state.lang) {
+                        state.lang = targetLang;
+                        state.currentLevelIndex = 0;
+                        saveStorage();
+                        renderLevel();
+                    }
+                });
+            });
+
+            // BOTOES DE AJUDA
+            hintBtn.addEventListener('click', () => {
+                const lvl = db[state.lang][state.currentLevelIndex];
+                hintText.innerText = lvl.hint;
+                hintBox.classList.toggle('hidden');
+            });
+
+            revealBtn.addEventListener('click', () => {
+                const lvl = db[state.lang][state.currentLevelIndex];
+                answerInput.value = lvl.answers[0];
+            });
+
+            // NAVEGAÇÃO
+            nextLevelFeedbackBtn.addEventListener('click', () => {
+                if (state.currentLevelIndex < 299) {
+                    state.currentLevelIndex++;
+                    saveStorage();
+                    renderLevel();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (state.currentLevelIndex < 299) {
+                    state.currentLevelIndex++;
+                    saveStorage();
+                    renderLevel();
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (state.currentLevelIndex > 0) {
+                    state.currentLevelIndex--;
+                    saveStorage();
+                    renderLevel();
+                }
+            });
+
+            // MENU LATERAL
+            toggleSidebarBtn.addEventListener('click', () => {
+                levelsSidebar.classList.remove('translate-x-full');
+            });
+
+            closeSidebarBtn.addEventListener('click', () => {
+                levelsSidebar.classList.add('translate-x-full');
+            });
+
+            function renderSidebarGrid(filter = 'all') {
+                levelsGrid.innerHTML = '';
+                const currentList = db[state.lang];
+                
+                currentList.forEach((lvl, idx) => {
+                    if (filter === 'mod1' && (lvl.id < 1 || lvl.id > 50)) return;
+                    if (filter === 'mod2' && (lvl.id < 51 || lvl.id > 100)) return;
+                    if (filter === 'mod3' && (lvl.id < 101 || lvl.id > 200)) return;
+                    if (filter === 'mod4' && (lvl.id < 201 || lvl.id > 300)) return;
+
+                    const isDone = state.completed[state.lang].has(lvl.id);
+                    const isCurrent = state.currentLevelIndex === idx;
+
+                    const btn = document.createElement('button');
+                    btn.className = `p-2 rounded-lg text-xs font-bold transition flex flex-col items-center justify-center border ${
+                        isCurrent ? 'bg-blue-600 text-white border-blue-400 ring-2 ring-blue-400/50' :
+                        isDone ? 'bg-emerald-950/60 text-emerald-300 border-emerald-600/50 hover:bg-emerald-900/50' :
+                        'bg-slate-800/80 text-slate-400 border-slate-700 hover:bg-slate-700 hover:text-slate-200'
+                    }`;
+
+                    btn.innerHTML = `
+                        <span>${lvl.id}</span>
+                        <i class="fa-solid ${isDone ? 'fa-check text-[10px] mt-0.5' : 'fa-code text-[9px] opacity-40 mt-0.5'}"></i>
+                    `;
+
+                    btn.addEventListener('click', () => {
+                        state.currentLevelIndex = idx;
+                        saveStorage();
+                        renderLevel();
+                        levelsSidebar.classList.add('translate-x-full');
+                    });
+
+                    levelsGrid.appendChild(btn);
+                });
+            }
+
+            // FILTROS
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => {
+                        b.classList.remove('bg-blue-600', 'text-white', 'active');
+                        b.classList.add('bg-slate-800', 'text-slate-300');
+                    });
+                    e.target.classList.remove('bg-slate-800', 'text-slate-300');
+                    e.target.classList.add('bg-blue-600', 'text-white', 'active');
+
+                    renderSidebarGrid(e.target.dataset.filter);
+                });
+            });
+
+            // REINICIAR
+            resetProgressBtn.addEventListener('click', () => {
+                if (confirm("Deseja reiniciar todo o progresso dos 300 níveis?")) {
+                    state.completed[state.lang].clear();
+                    state.currentLevelIndex = 0;
+                    saveStorage();
+                    renderLevel();
+                }
+            });
+
+            // RENDER INICIAL
+            renderLevel();
+        });
+    </script>
+</body>
+</html>
